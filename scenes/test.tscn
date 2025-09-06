@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://3yk3csjfpjbu"]
+
+[ext_resource type="Texture2D" uid="uid://c87wpjv6juiyv" path="res://art/objects.png" id="1_errlg"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_errlg"]
+
+[node name="Test" type="Node2D"]
+
+[node name="Objects" type="Sprite2D" parent="."]
+position = Vector2(219, 200)
+texture = ExtResource("1_errlg")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(564, 223)
+texture = SubResource("NoiseTexture2D_errlg")

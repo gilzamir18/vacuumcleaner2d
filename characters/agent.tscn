@@ -1,0 +1,72 @@
+[gd_scene load_steps=10 format=3 uid="uid://buyl4aaw2rf78"]
+
+[ext_resource type="Texture2D" uid="uid://f2qartpeja8g" path="res://art/vaccum_cleaner1.png" id="1_7ymcd"]
+[ext_resource type="Script" uid="uid://b5enjn4lgqixs" path="res://characters/VaccumCleaner.cs" id="1_oet2h"]
+[ext_resource type="Texture2D" uid="uid://d0ydovvi8gg6t" path="res://art/vaccum_cleaner2.png" id="2_xsexs"]
+[ext_resource type="Script" uid="uid://cndf8gsvfd5lb" path="res://addons/ai4u/dotnet/scripts/RL/agents/RLAgent.cs" id="3_xsexs"]
+[ext_resource type="Script" uid="uid://cj02j7e3kch41" path="res://addons/ai4u/dotnet/scripts/RL/actuators/DiscretActuator.cs" id="4_cc24o"]
+[ext_resource type="Script" uid="uid://byxn8l43oixey" path="res://addons/ai4u/dotnet/scripts/RL/controllers/DiscretArrowController.cs" id="6_p01a7"]
+[ext_resource type="Script" uid="uid://btl65hbjhq66l" path="res://addons/ai4u/dotnet/scripts/ControllerConfiguration.cs" id="7_u5mno"]
+[ext_resource type="Script" uid="uid://bw4tvfeno2sik" path="res://addons/ai4u/dotnet/scripts/ControlRequestor.cs" id="8_o2jmw"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cc24o"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_7ymcd")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_7ymcd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_xsexs")
+}],
+"loop": true,
+"name": &"suck",
+"speed": 2.0
+}]
+
+[node name="Agent" type="Node2D" node_paths=PackedStringArray("layers")]
+z_index = 1
+script = ExtResource("1_oet2h")
+layers = []
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_cc24o")
+animation = &"suck"
+autoplay = "idle"
+frame_progress = 0.0467025
+
+[node name="RLAgent" type="Node" parent="."]
+script = ExtResource("3_xsexs")
+remote = true
+doneAtNegativeReward = false
+MaxStepsPerEpisode = 2000
+arrayInputSize = 525
+rangeMax = 2.0
+actionIsContinuous = false
+actionSize = 6
+
+[node name="Actuator" type="Node" parent="RLAgent" node_paths=PackedStringArray("ActionHandler")]
+script = ExtResource("4_cc24o")
+size = 6
+ActionHandler = NodePath("../..")
+actionName = "move"
+
+[node name="Controller" type="Node" parent="RLAgent"]
+script = ExtResource("6_p01a7")
+
+[node name="ResquestorConfig" type="Node" parent="RLAgent"]
+script = ExtResource("7_u5mno")
+skipFrame = 0
+repeatAction = false
+
+[node name="Requestor" type="Node" parent="RLAgent" node_paths=PackedStringArray("agentsList")]
+script = ExtResource("8_o2jmw")
+physicsMode = false
+agentsList = []

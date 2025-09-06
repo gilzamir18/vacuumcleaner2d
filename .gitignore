@@ -1,0 +1,17 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+*.v2
+*.vsidx
+.vs/ProjectEvaluation/vacuumcleaner2d.metadata.v9.bin
+.vs/ProjectEvaluation/vacuumcleaner2d.projects.v9.bin
+.vs/ProjectEvaluation/vacuumcleaner2d.strings.v9.bin
+.vs/VACUUMCLEANER2D/CopilotIndices/17.14.1091.29919/CodeChunks.db
+.vs/VACUUMCLEANER2D/CopilotIndices/17.14.1091.29919/CodeChunks.db-shm
+.vs/VACUUMCLEANER2D/CopilotIndices/17.14.1091.29919/CodeChunks.db-wal
+.vs/VACUUMCLEANER2D/CopilotIndices/17.14.1091.29919/SemanticSymbols.db
+.vs/VACUUMCLEANER2D/CopilotIndices/17.14.1091.29919/SemanticSymbols.db-shm
+.vs/VACUUMCLEANER2D/CopilotIndices/17.14.1091.29919/SemanticSymbols.db-wal
+.vs/VACUUMCLEANER2D/v17/.suo
+.vs/VACUUMCLEANER2D/v17/DocumentLayout.backup.json
+.vs/VACUUMCLEANER2D/v17/DocumentLayout.json
