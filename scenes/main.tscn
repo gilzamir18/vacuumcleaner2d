@@ -40,7 +40,13 @@ layers = [NodePath("../Floor"), NodePath("../objects"), NodePath("../decorations
 dirtyTexture = Array[Texture2D]([ExtResource("3_sugp2"), ExtResource("4_jyhfs")])
 powerStation = NodePath("../Marker2D")
 
-[node name="RLAgent" parent="Agent" index="1"]
+[node name="AnimatedSprite2D" parent="Agent" index="0"]
+frame_progress = 0.0
+
+[node name="Requestor" parent="Agent" index="1"]
+computePhysicsTicks = false
+
+[node name="RLAgent" parent="Agent" index="2"]
 addControlRequestor = false
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -76,6 +82,6 @@ offset_bottom = 23.0
 grow_horizontal = 2
 
 [node name="Marker2D" type="Marker2D" parent="."]
-position = Vector2(315, 102)
+position = Vector2(312, 104)
 
 [editable path="Agent"]

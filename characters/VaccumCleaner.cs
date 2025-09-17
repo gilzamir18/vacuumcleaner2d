@@ -6,18 +6,20 @@ using System.Threading.Tasks.Sources;
 public partial class VaccumCleaner : Node2D
 {
     [Export]
-    internal  TileMapLayer[] layers;
+    internal TileMapLayer[] layers;
     [Export] Texture2D[] dirtyTexture;
     [Export] private Marker2D powerStation;
 
     internal const float scorePerClean = 0.1f;
     internal float power = 1000;
+    internal const float maxPower = 1000;
+    internal const float minPower = 0;
 
     private int posX = 28;
     private int posY = 17;
 
     private bool[,] dirties = new bool[29, 18];
-    private Sprite2D[, ] dirtySprite  = new Sprite2D[29, 18];
+    private Sprite2D[,] dirtySprite = new Sprite2D[29, 18];
 
     private RLAgent agent;
     private AnimatedSprite2D animatedSprite;
@@ -26,12 +28,8 @@ public partial class VaccumCleaner : Node2D
     {
         //Supondo que "tilemap" seja o nó TileMap
         SetPos(layers[0], posX, posY);
-        agent = (RLAgent) GetNode("RLAgent");
+        agent = (RLAgent)GetNode("RLAgent");
 
-        agent.OnStepStart += (RLAgent agent) =>
-        {
-            SendPerception();
-        };
 
         agent.OnStepEnd += OnStepEnd;
 
@@ -59,6 +57,7 @@ public partial class VaccumCleaner : Node2D
             agent.AddReward(-1.0f, true);
             return;
         }
+        SendPerception();
     }
 
 
@@ -69,11 +68,11 @@ public partial class VaccumCleaner : Node2D
 
     private void SendPerception()
     {
+        int idx = 0;
         for (int i = 0; i < 29; i++)
         {
             for (int j = 0; j < 18; j++)
             {
-                int idx = i + j * 29;
                 int tipo = GetCellType(i, j);
                 if (tipo == 0)
                 {
@@ -90,14 +89,16 @@ public partial class VaccumCleaner : Node2D
                 {
                     agent.ArraySensor.SetValue(idx, tipo);
                 }
+                idx++;
             }
         }
         agent.ArraySensor.SetValue(agent.ArraySensor.shape[0] - 3, (int)power);
         agent.ArraySensor.SetValue(agent.ArraySensor.shape[0] - 2, posX);
         agent.ArraySensor.SetValue(agent.ArraySensor.shape[0] - 1, posY);
+        //GD.Print($"Pos X, Y: {posX},{posY} - Power: {power:F1}");
     }
 
-    public int GetCellType(int x, int y)
+    public int  GetCellType(int x, int y)
     {
         var tipo = -1;
         //Obtendo o índice do tile na célula (5, 3)
@@ -133,7 +134,7 @@ public partial class VaccumCleaner : Node2D
         }
         else if (action == 2)
         {
-            if (GetCellType(posX-1, posY) == 0)
+            if (GetCellType(posX - 1, posY) == 0)
             {
                 SetPos(layers[0], posX - 1, posY);
                 posX = posX - 1;
@@ -141,9 +142,9 @@ public partial class VaccumCleaner : Node2D
         }
         else if (action == 3)
         {
-            if (GetCellType(posX, posY-1) == 0)
+            if (GetCellType(posX, posY - 1) == 0)
             {
-                SetPos(layers[0], posX, posY-1);
+                SetPos(layers[0], posX, posY - 1);
                 posY = posY - 1;
             }
         }
@@ -164,7 +165,22 @@ public partial class VaccumCleaner : Node2D
                 agent.AddReward(scorePerClean);
             }
         }
-        this.power = this.power * 0.99f;
+        CheckCharger();
+    }
+
+    private void CheckCharger()
+    {
+        string ani = animatedSprite.Animation;
+        if (powerStation.GlobalPosition.DistanceTo( animatedSprite.Position ) < 1)
+        {
+            animatedSprite.Animation = "suck";
+            power = Mathf.Clamp(power + 5, minPower, maxPower);
+        }
+        else
+        {
+            this.power = this.power * 0.995f;
+            animatedSprite.Animation = ani;
+        }
     }
 
     public void Reset()

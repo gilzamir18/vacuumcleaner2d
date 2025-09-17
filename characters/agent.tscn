@@ -42,6 +42,11 @@ animation = &"suck"
 autoplay = "idle"
 frame_progress = 0.0467025
 
+[node name="Requestor" type="Node" parent="." node_paths=PackedStringArray("agentsList")]
+script = ExtResource("8_o2jmw")
+physicsMode = false
+agentsList = [NodePath("../RLAgent")]
+
 [node name="RLAgent" type="Node" parent="."]
 script = ExtResource("3_xsexs")
 remote = true
@@ -65,8 +70,3 @@ script = ExtResource("6_p01a7")
 script = ExtResource("7_u5mno")
 skipFrame = 0
 repeatAction = false
-
-[node name="Requestor" type="Node" parent="RLAgent" node_paths=PackedStringArray("agentsList")]
-script = ExtResource("8_o2jmw")
-physicsMode = false
-agentsList = []
