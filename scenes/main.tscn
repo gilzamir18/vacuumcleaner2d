@@ -31,12 +31,11 @@ tile_set = ExtResource("2_0wfyh")
 position = Vector2(232, 145)
 zoom = Vector2(2.45, 2.2)
 
-[node name="Agent" parent="." node_paths=PackedStringArray("layers", "powerStation") instance=ExtResource("1_o5qli")]
+[node name="Agent" parent="." node_paths=PackedStringArray("powerStation") instance=ExtResource("1_o5qli")]
 z_index = 0
 y_sort_enabled = true
 position = Vector2(385, 165)
 scale = Vector2(0.08, 0.08)
-layers = [NodePath("../Floor"), NodePath("../objects"), NodePath("../decorations")]
 dirtyTexture = Array[Texture2D]([ExtResource("3_sugp2"), ExtResource("4_jyhfs")])
 powerStation = NodePath("../Marker2D")
 
