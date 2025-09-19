@@ -3,9 +3,17 @@ import AI4UEnv
 import gymnasium as gym
 import numpy as np
 import time
-from agentdata import *
-from searchutils import *
+from agentdata import * #provides the get_state function to get the grid and agent state
+from searchutils import * #provides class Node to generate the search tree
 from collections import deque
+
+''' Search Agent using BFS to find the nearest dirty cell 
+With the path found, the agent will move to the cell and clean it.
+The use of the function get_state from agentdata.py is necessary to get the grid and agent state.
+The grid data is a 2D array where each cell can be empty, dirty or a collider.
+The agent state is a tuple with the power, x and y position of the agent.
+The search_path function implements the BFS algorithm to find the nearest dirty cell.
+'''
 
 env = gym.make("AI4UEnv-v0", rid='0', config=dict(server_IP='127.0.0.1', server_port=8080, buffer_size=81900))
 
@@ -44,7 +52,7 @@ def search_path(grid, agent_state):
 obs, info = env.reset()
 reward_sum = 0
 path = None
-action_map = {"right": 1, "left": 2, "up": 3, "down": 4, "suck": 5, "no_op": 0}
+action_map = {"right": 1, "left": 2, "up": 3, "down": 4, "suck": 5, "no_op": 0} #mapa de ações
 while True:
     action = None
     if path is None or len(path) == 0:
