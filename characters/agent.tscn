@@ -31,21 +31,15 @@ animations = [{
 "speed": 2.0
 }]
 
-[node name="Agent" type="Node2D" node_paths=PackedStringArray("layers")]
+[node name="Agent" type="Node2D"]
 z_index = 1
 script = ExtResource("1_oet2h")
-layers = []
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_cc24o")
 animation = &"suck"
 autoplay = "idle"
 frame_progress = 0.0467025
-
-[node name="Requestor" type="Node" parent="." node_paths=PackedStringArray("agentsList")]
-script = ExtResource("8_o2jmw")
-physicsMode = false
-agentsList = [NodePath("../RLAgent")]
 
 [node name="RLAgent" type="Node" parent="."]
 script = ExtResource("3_xsexs")
@@ -56,6 +50,11 @@ arrayInputSize = 525
 rangeMax = 2.0
 actionIsContinuous = false
 actionSize = 6
+
+[node name="Requestor" type="Node" parent="RLAgent" node_paths=PackedStringArray("agentsList")]
+script = ExtResource("8_o2jmw")
+physicsMode = false
+agentsList = []
 
 [node name="Actuator" type="Node" parent="RLAgent" node_paths=PackedStringArray("ActionHandler")]
 script = ExtResource("4_cc24o")

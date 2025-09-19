@@ -5,11 +5,10 @@ using System.Threading.Tasks.Sources;
 
 public partial class VaccumCleaner : Node2D
 {
-    [Export]
-    internal TileMapLayer[] layers;
     [Export] Texture2D[] dirtyTexture;
     [Export] private Marker2D powerStation;
 
+    internal TileMapLayer[] layers;
     internal const float scorePerClean = 0.1f;
     internal float power = 1000;
     internal const float maxPower = 1000;
@@ -26,6 +25,12 @@ public partial class VaccumCleaner : Node2D
 
     public override void _Ready()
     {
+
+        layers = new TileMapLayer[3];
+        layers[0] = GetTree().Root.GetNode("main").GetNode<TileMapLayer>("LayerFloor");
+        layers[1] = GetTree().Root.GetNode("main").GetNode<TileMapLayer>("LayerObjects");
+        layers[2] = GetTree().Root.GetNode("main").GetNode<TileMapLayer>("LayerDecorations");
+
         //Supondo que "tilemap" seja o nó TileMap
         SetPos(layers[0], posX, posY);
         agent = (RLAgent)GetNode("RLAgent");
